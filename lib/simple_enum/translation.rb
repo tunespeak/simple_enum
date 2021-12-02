@@ -15,7 +15,11 @@ module SimpleEnum
       defaults << key.to_s.humanize
 
       options.reverse_merge! count: 1, default: defaults
-      I18n.translate(defaults.shift, **options)
+      if RUBY_VERSION < '2.7'
+        I18n.translate(defaults.shift, options)
+      else
+        I18n.translate(defaults.shift, **options)
+      end
     end
   end
 end
